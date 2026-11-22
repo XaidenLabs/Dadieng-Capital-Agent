@@ -75,6 +75,38 @@ p{margin:0 0 10px}
 .meter{height:6px;border-radius:9px;background:var(--zone);margin-top:4px;overflow:hidden}
 .meter b{display:block;height:100%;background:var(--co2);border-radius:9px;transform-origin:left;animation:grow 1.2s .3s cubic-bezier(.2,.8,.2,1) both}
 @keyframes grow{from{transform:scaleX(0)}}
+/* token launch window */
+.tok{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;margin-top:20px;align-items:stretch}
+.tcard{border:1px solid var(--rule);border-radius:12px;background:var(--bg);overflow:hidden;display:flex;flex-direction:column;animation:rise .7s .1s cubic-bezier(.2,.8,.2,1) both}
+.tcard .tbar{display:flex;align-items:center;gap:7px;padding:10px 14px;background:var(--zone);border-bottom:1px solid var(--rule);font-size:13px;color:var(--mute)}
+.tcard .tbar i{width:10px;height:10px;border-radius:50%;background:var(--rule)}
+.tcard .tbar span{margin-left:auto;display:inline-flex;align-items:center;gap:6px;color:var(--ok);font-weight:600}
+.tcard .tbar span::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;animation:ping2 1.6s infinite}
+.thead{display:flex;gap:14px;align-items:center;padding:18px 18px 6px}
+.thead svg{width:64px;height:64px;flex:none;border-radius:16px;box-shadow:0 8px 20px -10px color-mix(in srgb,var(--co) 70%,transparent)}
+.thead b{display:block;font:600 26px/1.05 "Space Grotesk",sans-serif;letter-spacing:-.02em}
+.thead small{color:var(--mute);font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:4px 18px 0}
+.chip{font-size:13px;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--zone);color:var(--co2);white-space:nowrap}
+.chip.okc{background:color-mix(in srgb,var(--ok) 15%,transparent);color:var(--ok)}
+.tstats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:14px 18px}
+.ts{border:1px solid var(--rule);border-radius:10px;padding:10px 12px}
+.ts small{display:block;color:var(--mute);font-size:13px}
+.ts b{font:600 20px/1.2 "Space Grotesk",sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fair{padding:0 18px 4px}
+.fair .lbl{display:flex;justify-content:space-between;font-size:13px;color:var(--mute);margin-bottom:6px}
+.fair .bar{height:10px;border-radius:9px;background:var(--zone);overflow:hidden;display:flex}
+.fair .bar b{display:block;height:100%;background:linear-gradient(90deg,var(--co2),#5dfc9c);width:100%;transform-origin:left;animation:grow 1.4s .4s cubic-bezier(.2,.8,.2,1) both}
+.mint{margin:12px 18px 0;display:flex;gap:8px;align-items:center;background:var(--zone);border-radius:8px;padding:8px 8px 8px 12px}
+.mint code{font:500 13px "JetBrains Mono",ui-monospace,monospace;overflow-wrap:anywhere;flex:1}
+.mint button{flex:none;font:600 13px Inter,sans-serif;min-height:36px;padding:0 12px;border-radius:7px;border:1px solid var(--co2);background:transparent;color:var(--co2);cursor:pointer}
+.tlinks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:14px 18px 18px;margin-top:auto}
+.tlinks a{display:flex;align-items:center;justify-content:center;min-height:44px;border-radius:8px;border:1px solid var(--rule);font-weight:600;font-size:14px;text-decoration:none;text-align:center;transition:border-color .2s,background .2s}
+.tlinks a:hover{border-color:var(--co2);background:var(--zone)}
+.tlinks a.pri{background:var(--co2);border-color:var(--co2);color:#fff}
+.term .p{color:#c39bff}
+@media(max-width:980px){.tok{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:420px){.tlinks{grid-template-columns:minmax(0,1fr)}}
 /* tracks */
 .zone{background:var(--zone)}
 .tracks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:20px}
@@ -176,6 +208,40 @@ footer a{color:#fff}
   </div>
 </section>
 
+<section class="band" id="token">
+  <div class="wrap">
+    <h2>A fair launch from the agent wallet: $DADIENG</h2>
+    <p class="sub">On Nov 21 the agent launched its own token through Steve's Launchpad on the ClawPump route. The dev buy was optional, so it was set to zero: no insider bag, just an exact quote, one owner approval and a local signature. Below is a replay of that session and the live token record.</p>
+    <div class="tok">
+      <div class="term" aria-label="Console replay of the Nov 21 token launch">
+        <div class="bar"><i></i><i></i><i></i><span>steve · launchpad · clawpump · replay of Nov 21</span></div>
+        <pre id="tty2"></pre>
+      </div>
+      <article class="tcard" aria-label="DADIENG token details">
+        <div class="tbar"><i></i><i></i><i></i><span>Live on Pump.fun</span></div>
+        <div class="thead"><svg viewBox="0 0 64 64" aria-label="DADIENG logo" role="img"><defs><pattern id="lg" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M8 0H0V8" fill="none" stroke="#2856eb" stroke-width="1"/></pattern></defs><rect width="64" height="64" fill="#1240e0"/><rect width="64" height="64" fill="url(#lg)"/><circle cx="32" cy="32" r="19" fill="none" stroke="#fff" stroke-width="3"/><circle cx="48.5" cy="17.5" r="3.6" fill="#5dfc9c"/><text x="32" y="40.5" text-anchor="middle" font-family="Space Grotesk,Inter,sans-serif" font-weight="700" font-size="23" fill="#fff">D</text></svg><div><b>$DADIENG</b><small>Dadieng Capital Agent · Solana</small></div></div>
+        <div class="chips"><span class="chip okc">Zero dev buy</span><span class="chip">ClawPump route</span><span class="chip">SOL pair</span><span class="chip okc">Arena +150 XP</span></div>
+        <div class="tstats">
+          <div class="ts"><small>Launch cost</small><b>0.0075 SOL</b></div>
+          <div class="ts"><small>Dev buy</small><b>0 SOL</b></div>
+          <div class="ts"><small>Creator-fee share</small><b>75% to owner</b></div>
+          <div class="ts"><small>Launched</small><b>Nov 21, 2026</b></div>
+        </div>
+        <div class="fair">
+          <div class="lbl"><span>Supply at launch</span><span>100% public curve · 0% dev</span></div>
+          <div class="bar" role="img" aria-label="100 percent of supply on the public bonding curve"><b></b></div>
+        </div>
+        <div class="mint"><code id="mintAddr">A3c6mSQFZY27pAgDe29cs3zmTH8roBEWvv9VsAZ5JebL</code><button id="copyMint" type="button">Copy CA</button></div>
+        <div class="tlinks">
+          <a class="pri" href="https://pump.fun/coin/A3c6mSQFZY27pAgDe29cs3zmTH8roBEWvv9VsAZ5JebL">Pump.fun</a>
+          <a href="https://solscan.io/token/A3c6mSQFZY27pAgDe29cs3zmTH8roBEWvv9VsAZ5JebL">Token</a>
+          <a href="https://solscan.io/tx/dDjZg8npbxkegoUAUWkiqFC5vQ2vxzdTiJGohMCnvY9hZjTYFukARJGfHjkeBZh8Kd8kqFfi9RctL78RNp8soWe">Launch tx</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
 <section class="band zone">
   <div class="wrap">
     <h2>Track status</h2>
@@ -209,7 +275,7 @@ footer a{color:#fff}
         <ul>
           <li>Skill installed; hop library and estimates run from Steve</li>
           <li>Estimate: 50 bps, 0.002 SOL per hop, 3-hop minimum, 0.01 SOL screening</li>
-          <li>Route attempts hit "multi-hop signer unavailable"; reported, retry queued</li>
+          <li>Route prepare currently returns HTTP 400; reported with transfer IDs, retry queued</li>
           <li>Thread: <a href="https://x.com/dadiengalfred/status/2121751830220939712">private routing</a></li>
         </ul>
       </div>
@@ -240,9 +306,9 @@ footer a{color:#fff}
     <div class="panel">
       <h3>Blockers found and reported</h3>
       <ul class="bl">
-        <li><b>MultiHopper:</b> route execution returns "multi-hop signer unavailable"; estimates work.</li>
-        <li><b>MagicBlock:</b> challenge returns success with no challenge payload, so private swap and transfer can't authenticate.</li>
-        <li><b>SAP Agent Registry:</b> rejected by the intent check ("unknown program and no destinations").</li>
+        <li><b>MultiHopper:</b> route prepare returns HTTP 400 (transfers 273, 274); estimates work.</li>
+        <li><b>MagicBlock:</b> private swaps hit an upstream outage (API 405); private transfers need USDC the agent can't swap into yet.</li>
+        <li><b>SAP Agent Registry:</b> the register tx builds, but approval is blocked: "Steve cannot verify the fee basis for program SAPpUhs…FETZ".</li>
       </ul>
       <h3 style="margin-top:16px">Next on the run sheet</h3>
       <ul class="next">
@@ -348,23 +414,42 @@ footer a{color:#fff}
     ['g','  ✓ Preview passed · approved · confirmed'],
     ['m','  guardrail held. owner overruled by policy, as designed.']
   ];
-  const tty=document.getElementById('tty');
   const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
-  const full=()=>script.map(l=>`<span class="${l[0]}">${esc(l[1])}</span>`).join('\n');
-  if(calm){tty.innerHTML=full()}
-  else{
+  const runTTY=(el,lines,rest)=>{
+    if(!el)return;
+    const full=()=>lines.map(l=>`<span class="${l[0]}">${esc(l[1])}</span>`).join('\n');
+    if(calm){el.innerHTML=full();return}
     let li=0,ci=0,done='';
     const step=()=>{
-      if(li>=script.length){tty.innerHTML=done+'<span class="caret"></span>';setTimeout(()=>{li=0;ci=0;done='';step()},5000);return}
-      const [cls,txt]=script[li];
+      if(li>=lines.length){el.innerHTML=done+'<span class="caret"></span>';setTimeout(()=>{li=0;ci=0;done='';step()},rest);return}
+      const [cls,txt]=lines[li];
       ci+=cls==='c'?1:4;
-      const part=txt.slice(0,ci);
-      tty.innerHTML=done+`<span class="${cls}">${esc(part)}</span><span class="caret"></span>`;
+      el.innerHTML=done+`<span class="${cls}">${esc(txt.slice(0,ci))}</span><span class="caret"></span>`;
       if(ci>=txt.length){done+=`<span class="${cls}">${esc(txt)}</span>\n`;li++;ci=0;setTimeout(step,cls==='c'?380:220)}
       else setTimeout(step,cls==='c'?34:14);
     };
     step();
-  }
+  };
+  runTTY(document.getElementById('tty'),script,5000);
+  const launch=[
+    ['c','$ steve launchpad create --route clawpump --pair SOL'],
+    ['m','  ticker DADIENG · name "Dadieng Capital Agent"'],
+    ['m','  initial buy: none'],
+    ['c','$ steve launchpad quote'],
+    ['y','  exact ClawPump quote · valid ~15 min'],
+    ['m','  creation fee   0.007515 SOL'],
+    ['m','  dev buy        0 SOL'],
+    ['g','  ✓ Owner approved 0.00751 SOL · signed locally'],
+    ['m','  confirming token creation…'],
+    ['g','  ✓ DADIENG is live on Pump.fun'],
+    ['p','  mint A3c6mSQFZY27pAgDe29cs3zmTH8roBEWvv9VsAZ5JebL'],
+    ['',''],
+    ['c','$ arena claim token-launch'],
+    ['g','  ✓ Launch verified. +150 XP granted.']
+  ];
+  runTTY(document.getElementById('tty2'),launch,6000);
+  const cm=document.getElementById('copyMint');
+  if(cm)cm.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(document.getElementById('mintAddr').textContent);cm.textContent='Copied ✓'}catch(e){cm.textContent='Select to copy'}setTimeout(()=>cm.textContent='Copy CA',2000)});
 
   /* copy */
   const b=document.getElementById('copy');
