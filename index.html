@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dadieng Capital Agent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE work, with showmanship: a submission dossier judges should enjoy scanning
+   IDEA an engineering datasheet for one live agent: spec plate, signal path, test log, console replay
+   PICTURE the agent's signal path as a live circuit: a token travels operator to Solana, each station lights as it passes
+   COLOUR cobalt #1240e0 field, white ground, ink black, pale cobalt zones, green done, amber pending, red blocked
+   TYPE Space Grotesk 600 display + Inter text + JetBrains Mono console
+   LAYOUT cobalt hero: title + spec plate, circuit full width beneath; proof console beside guardrail spec; tracks; timeline; record */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#080b16);--ink:light-dark(#0e1016,#e9ecf7);--mute:light-dark(#4b5163,#a5abc0);--zone:light-dark(#eef2ff,#10162e);--rule:light-dark(#d5dbf1,#232a49);--co:#1240e0;--co-d:light-dark(#0d2fb0,#0a1d6e);--co2:light-dark(#1240e0,#86a2ff);--ok:light-dark(#0f7a3d,#4fd38a);--wait:light-dark(#9a5b00,#f2b54a);--bad:light-dark(#c4231b,#ff6b63);--term:#0b0f1f}
+:root[data-theme=light]{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:72px;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
+a{color:var(--co2);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--co2);outline-offset:2px;border-radius:4px}
+h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;font-weight:600;letter-spacing:-.02em;line-height:1.05;margin:0}
+h1{font-size:clamp(32px,5vw,52px);text-wrap:balance}
+h2{font-size:clamp(24px,2.8vw,32px);margin-bottom:8px;text-wrap:balance}
+h3{font-size:18px;margin-bottom:4px}
+p{margin:0 0 10px}
+.band{padding:clamp(32px,4.5vw,64px) max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+.sub{color:var(--mute);max-width:68ch}
+/* hero */
+.hero{background:var(--co);color:#fff;position:relative;overflow:hidden;padding-bottom:clamp(20px,3vw,36px)}
+.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:32px 32px;mask-image:linear-gradient(180deg,#000 30%,transparent 100%)}
+.hero .wrap{position:relative}
+.top{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:start}
+.kicker{margin:0 0 14px;font-weight:600;color:#dfe6ff}
+.lede{font-size:18px;max-width:60ch;margin-top:16px;color:#e8edff}
+.plate{border:1px solid rgba(255,255,255,.38);border-radius:12px;padding:6px 16px;font-size:14px;background:rgba(6,20,90,.25);backdrop-filter:blur(2px)}
+.plate div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.18)}
+.plate div:last-child{border:0}
+.plate span:first-child{color:#cfd9ff}
+.plate span:last-child{text-align:right;font-weight:600;overflow-wrap:anywhere}
+.plate a{color:#fff}
+.live{display:inline-flex;align-items:center;gap:8px}
+.live i{width:9px;height:9px;border-radius:50%;background:#5dfc9c;box-shadow:0 0 0 0 rgba(93,252,156,.7);animation:ping 1.8s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 9px rgba(93,252,156,0)}100%{box-shadow:0 0 0 0 rgba(93,252,156,0)}}
+.figs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:24px}
+.fg{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:12px 14px;animation:rise .7s cubic-bezier(.2,.8,.2,1) both}
+.fg:nth-child(2){animation-delay:.08s}.fg:nth-child(3){animation-delay:.16s}.fg:nth-child(4){animation-delay:.24s}
+.fg b{display:block;font:600 clamp(26px,3.4vw,36px)/1 "Space Grotesk",sans-serif;white-space:nowrap;font-variant-numeric:tabular-nums}
+.fg small{font-size:13px;color:#dfe5ff}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.circuit{position:relative;height:260px;margin-top:clamp(22px,3vw,34px)}
+.circuit svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.circuit text{font-family:Inter,sans-serif}
+.cap{font-size:13px;color:#cfd9ff;margin-top:6px}
+/* proof */
+.proof{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;margin-top:20px;align-items:stretch}
+.term{background:var(--term);color:#dfe6ff;border-radius:12px;font:14px/1.6 "JetBrains Mono",ui-monospace,Menlo,monospace;overflow:hidden;display:flex;flex-direction:column;min-height:330px;box-shadow:0 1px 0 rgba(255,255,255,.04) inset}
+.term .bar{display:flex;align-items:center;gap:7px;padding:10px 14px;background:#141a33;font-size:13px;color:#9aa6d6}
+.term .bar i{width:10px;height:10px;border-radius:50%;background:#2d3560}
+.term .bar span{margin-left:auto}
+.term pre{margin:0;padding:14px 16px;white-space:pre-wrap;overflow-wrap:anywhere;flex:1}
+.term .c{color:#86a2ff}.term .g{color:#4fd38a}.term .r{color:#ff6b63}.term .y{color:#f2b54a}.term .m{color:#8b93b8}
+.caret{display:inline-block;width:8px;height:16px;background:#86a2ff;vertical-align:-3px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.panel{border:1px solid var(--rule);border-radius:12px;padding:18px;background:var(--bg);transition:transform .25s ease,box-shadow .25s ease,border-color .25s}
+.panel:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--co2) 50%,var(--rule));box-shadow:0 10px 24px -14px color-mix(in srgb,var(--co) 60%,transparent)}
+.spec{width:100%;border-collapse:collapse;font-size:15px}
+.spec td{padding:9px 0;border-bottom:1px solid var(--rule)}
+.spec tr:last-child td{border:0}
+.spec td:last-child{text-align:right;font-weight:600;white-space:nowrap}
+.meter{height:6px;border-radius:9px;background:var(--zone);margin-top:4px;overflow:hidden}
+.meter b{display:block;height:100%;background:var(--co2);border-radius:9px;transform-origin:left;animation:grow 1.2s .3s cubic-bezier(.2,.8,.2,1) both}
+@keyframes grow{from{transform:scaleX(0)}}
+/* tracks */
+.zone{background:var(--zone)}
+.tracks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:20px}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:3px 10px;border-radius:99px;white-space:nowrap}
+.tag::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.ok{background:color-mix(in srgb,var(--ok) 15%,transparent);color:var(--ok)}
+.wait{background:color-mix(in srgb,var(--wait) 18%,transparent);color:var(--wait)}
+.wait::before{animation:ping2 1.6s infinite}
+@keyframes ping2{50%{opacity:.25}}
+.steps{display:flex;gap:4px;margin:14px 0 6px}
+.steps span{flex:1;height:6px;border-radius:9px;background:var(--rule)}
+.steps span.on{background:var(--ok);animation:grow .6s both}
+.steps.amber span.on{background:var(--wait)}
+ul{margin:8px 0 0;padding-left:18px}
+li{margin:5px 0}
+/* timeline */
+.tl{position:relative;margin-top:24px;padding-left:34px}
+.tl::before{content:"";position:absolute;left:11px;top:6px;bottom:6px;width:2px;background:var(--rule)}
+.tl::after{content:"";position:absolute;left:11px;top:6px;bottom:6px;width:2px;background:var(--co2);transform-origin:top;animation:drawy 1.8s .2s cubic-bezier(.4,0,.2,1) both}
+@keyframes drawy{from{transform:scaleY(0)}}
+.ev{position:relative;display:grid;grid-template-columns:7.5em minmax(0,1fr) auto;gap:6px 18px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--rule);animation:rise .6s both}
+.ev::before{content:"";position:absolute;left:-29px;top:20px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--co2)}
+.ev time{color:var(--mute);white-space:nowrap;font-variant-numeric:tabular-nums}
+.ev b{font-family:"Space Grotesk",sans-serif;font-size:18px;font-weight:600}
+.ev p{margin:2px 0 0;color:var(--mute);font-size:15px}
+.ev a{white-space:nowrap;font-weight:600}
+/* record */
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin-top:20px}
+.addr{font:500 14px "JetBrains Mono",ui-monospace,monospace;overflow-wrap:anywhere;background:var(--zone);padding:12px 14px;border-radius:8px;display:block;margin:8px 0 12px}
+.btn{font:600 14px Inter,sans-serif;min-height:44px;padding:0 18px;border-radius:8px;border:1px solid var(--co2);background:var(--co2);color:#fff;cursor:pointer;transition:transform .15s}
+.btn:active{transform:scale(.97)}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.note{font-size:13px;color:var(--mute)}
+.bl li b{color:var(--bad)}
+.next li::marker{color:var(--co2)}
+footer{background:var(--co);color:#e8edff;font-size:14px}
+footer a{color:#fff}
+@media(max-width:980px){.figs{grid-template-columns:repeat(2,minmax(0,1fr))}.tracks{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.proof{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:760px){.top,.two,.tracks{grid-template-columns:minmax(0,1fr)}.ev{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="band hero">
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <p class="kicker">Steve Capital Agent Challenge · OOBE Protocol × Superteam Earn</p>
+        <h1>Dadieng Capital Agent: a guardrailed capital agent that shows its work</h1>
+        <p class="lede">Running in public on Steve Capital since Nov 11, 2026: hard risk caps, inference paid per request over x402, Ace Data Cloud research, and a daily technical breakdown of how Steve and SAP MCP behave under real use, blockers included.</p>
+      </div>
+      <div class="plate" aria-label="Agent spec plate">
+        <div><span>Status</span><span class="live"><i></i>Live on mainnet</span></div>
+        <div><span>Arena standing</span><span>2,550 Signal XP · Silver</span></div>
+        <div><span>Builder</span><span><a href="https://x.com/dadiengalfred">@dadiengalfred</a></span></div>
+        <div><span>Agent</span><span>Dadieng Capital Agent</span></div>
+        <div><span>Runtime</span><span>Steve Capital + SAP MCP</span></div>
+        <div><span>Approval mode</span><span>Request approval</span></div>
+        <div><span>Tracks</span><span>Main · Ace · MultiHopper</span></div>
+      </div>
+    </div>
+    <div class="figs">
+      <div class="fg"><b data-n="9">9</b><small>technical threads</small></div>
+      <div class="fg"><b data-n="5" data-s="+">5+</b><small>paid Ace requests</small></div>
+      <div class="fg"><b data-n="467">467</b><small>SAP MCP tools mapped</small></div>
+      <div class="fg"><b data-n="10" data-p="$">$10</b><small>max position, 1x leverage</small></div>
+    </div>
+    <div class="circuit" id="circ" role="img" aria-label="Signal path: Mandate, Steve runtime, SAP MCP, Integrations, Preview and policy, Sign locally, then Solana"><svg id="svg"></svg></div>
+    <p class="cap">Every action follows this path. Nothing reaches Solana until it has been previewed, checked against the wallet's own policy and approved.</p>
+  </div>
+</header>
+
+<section class="band">
+  <div class="wrap">
+    <h2>The guardrail held, even against its owner</h2>
+    <p class="sub">On Nov 18 an 18.18 USDC transfer was blocked by the 10 USDC per-operation policy. It only went through as capped transfers, each previewed with its exact fee and approved. Below is a replay of that session.</p>
+    <div class="proof">
+      <div class="term" aria-label="Console replay of the Nov 18 transfer session">
+        <div class="bar"><i></i><i></i><i></i><span>steve · transfer preview · replay of Nov 18</span></div>
+        <pre id="tty"></pre>
+      </div>
+      <div class="panel">
+        <h3>Guardrails as configured</h3>
+        <table class="spec"><tbody>
+          <tr><td>Max position</td><td>$10</td></tr>
+          <tr><td>Daily loss limit</td><td>$5</td></tr>
+          <tr><td>Leverage</td><td>1x</td></tr>
+          <tr><td>Per-operation cap</td><td>10 USDC · 0.05 SOL</td></tr>
+          <tr><td>Max SOL per transaction</td><td>0.5 SOL</td></tr>
+          <tr><td>Approval mode</td><td>Request approval</td></tr>
+        </tbody></table>
+        <p class="note" style="margin-top:12px">Blocked attempt vs cap</p>
+        <div class="meter" title="18.18 USDC attempted"><b style="width:100%;background:var(--bad)"></b></div>
+        <div class="meter" title="10 USDC cap"><b style="width:55%"></b></div>
+        <p class="note" style="margin-top:6px">18.18 USDC attempted · 10 USDC allowed</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band zone">
+  <div class="wrap">
+    <h2>Track status</h2>
+    <div class="tracks">
+      <div class="panel">
+        <span class="tag ok">Active daily</span>
+        <div class="steps"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></div>
+        <h3>Main track</h3>
+        <ul>
+          <li>Agent funded, profiled and risk-capped on Steve</li>
+          <li>Signed trade through Steve: Arena "Trade with Steve" complete</li>
+          <li>Engage, quote and technical-thread missions submitted daily</li>
+          <li>Product feedback sent to OOBE</li>
+          <li>Token launched from the agent wallet via Steve Launchpad (ClawPump): <a href="https://pump.fun/coin/A3c6mSQFZY27pAgDe29cs3zmTH8roBEWvv9VsAZ5JebL">$DADIENG</a>, zero dev buy, <a href="https://solscan.io/tx/dDjZg8npbxkegoUAUWkiqFC5vQ2vxzdTiJGohMCnvY9hZjTYFukARJGfHjkeBZh8Kd8kqFfi9RctL78RNp8soWe">launch tx</a>. Arena: "Launch verified. XP granted."</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <span class="tag ok">Complete</span>
+        <div class="steps"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div>
+        <h3>Ace Data Cloud</h3>
+        <ul>
+          <li>Ace MCP connected in Steve with a purchased-credit key</li>
+          <li>Paid requests: Google Search ×3, Fish Voice ×1, Nano Banana image ×1</li>
+          <li>Demo post: <a href="https://x.com/dadiengalfred/status/2120684374047838573">view on X</a></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <span class="tag wait">In progress</span>
+        <div class="steps amber"><span class="on"></span><span class="on"></span><span></span><span></span></div>
+        <h3>MultiHopper</h3>
+        <ul>
+          <li>Skill installed; hop library and estimates run from Steve</li>
+          <li>Estimate: 50 bps, 0.002 SOL per hop, 3-hop minimum, 0.01 SOL screening</li>
+          <li>Route attempts hit "multi-hop signer unavailable"; reported, retry queued</li>
+          <li>Thread: <a href="https://x.com/dadiengalfred/status/2121751830220939712">private routing</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <h2>Technical log: one Steve system a day</h2>
+    <p class="sub">Each thread takes one part of the runtime apart, from what was actually observed while running the agent.</p>
+    <div class="tl" id="tl"></div>
+  </div>
+</section>
+
+<section class="band zone">
+  <div class="wrap two">
+    <div class="panel">
+      <h3>On-chain record</h3>
+      <p class="note">Agent wallet</p>
+      <code class="addr" id="addr">9NdhgPGMEDH8rRpeCvsecab4pScAmh6D4ezD9D5dosQt</code>
+      <div class="row">
+        <button class="btn" id="copy" type="button">Copy address</button>
+        <a href="https://solscan.io/account/9NdhgPGMEDH8rRpeCvsecab4pScAmh6D4ezD9D5dosQt">Full history on Solscan</a>
+      </div>
+      <p class="note" style="margin-top:12px">Includes the Steve trade, inference-vault deposits and policy-checked transfers.</p>
+    </div>
+    <div class="panel">
+      <h3>Blockers found and reported</h3>
+      <ul class="bl">
+        <li><b>MultiHopper:</b> route execution returns "multi-hop signer unavailable"; estimates work.</li>
+        <li><b>MagicBlock:</b> challenge returns success with no challenge payload, so private swap and transfer can't authenticate.</li>
+        <li><b>SAP Agent Registry:</b> rejected by the intent check ("unknown program and no destinations").</li>
+      </ul>
+      <h3 style="margin-top:16px">Next on the run sheet</h3>
+      <ul class="next">
+        <li>Register on the SAP Agent Registry</li>
+        <li>MagicBlock private swap, then a private USDC transfer</li>
+        <li>First live MultiHopper route, posted with @Multihopper</li>
+        <li>Creator walkthrough video</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer class="band">
+  <div class="wrap">
+    <p style="margin:0">Built for the OOBE Protocol Steve Capital Agent Challenge on Superteam Earn. Follow the run: <a href="https://x.com/dadiengalfred">@dadiengalfred</a> · <a href="https://x.com/SteveCapitalOS">@SteveCapitalOS</a> · <a href="https://x.com/OOBEonSol">@OOBEonSol</a></p>
+  </div>
+</footer>
+
+<script>
+{
+  const calm=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* timeline */
+  const threads=[
+    ["Nov 13","Beyond trading","What a Steve agent does beyond placing trades","2121365482976493599"],
+    ["Nov 14","Private routing","How MultiHopper sits in Steve's MCP workspace and what a route costs","2121751830220939712"],
+    ["Nov 15","Inference economics","Paying for the model over x402: vault fees, model choice as a risk parameter","2122094222132351109"],
+    ["Nov 17","467 tools, safely","Skill domains, direct vs gated tools, step budgets, execution receipts","2122545595130741001"],
+    ["Nov 18","Agent memory","Memory Vault vs Ledger Session, checkpoints, the cost of context","2122832572078084389"],
+    ["Nov 19","Before money moves","Build, preview, policy check, approve, sign locally","2123198824445337972"],
+    ["Nov 19","Agent identity","Agent Registry, SNS names and the Tool Registry as on-chain trust","2123549222469521598"],
+    ["Nov 20","What breaks in production","Model tool-calling, upstream outages and checks that fail closed","2123910770270363663"],
+    ["Nov 22","Launching from an agent wallet","Meteora DBC vs ClawPump: custody, cost, and a zero dev-buy launch","2124320774165016866"]
+  ];
+  document.getElementById('tl').innerHTML=threads.map((t,i)=>`<div class="ev" style="animation-delay:${.15+i*.12}s"><time>${t[0]}</time><div><b>${t[1]}</b><p>${t[2]}</p></div><a href="https://x.com/dadiengalfred/status/${t[3]}">Read thread →</a></div>`).join('');
+
+  /* count-up */
+  if(!calm){
+    document.querySelectorAll('.fg b').forEach(el=>{
+      const n=+el.dataset.n,pre=el.dataset.p||'',suf=el.dataset.s||'',t0=performance.now(),d=1300;
+      const tick=t=>{const k=Math.min(1,(t-t0)/d),e=1-(1-k)**3;el.textContent=pre+Math.round(n*e)+suf;if(k<1)requestAnimationFrame(tick)};
+      requestAnimationFrame(tick);
+    });
+  }
+
+  /* circuit */
+  const st=[["Mandate","caps + approval"],["Steve runtime","x402-paid model"],["SAP MCP","467 tools"],["Integrations","Ace · MultiHopper"],["Preview + policy","exact fees, hard caps"],["Sign locally","non-custodial"],["Solana","settled"]];
+  const box=document.getElementById('circ'),svg=document.getElementById('svg');
+  let pts=[],W=0,H=0,vert=false,nodes=[];
+  const draw=()=>{
+    W=box.clientWidth;vert=W<640;
+    const want=vert?st.length*62+20:260;
+    if(Math.abs(box.clientHeight-want)>2){box.style.height=want+'px'}
+    H=box.clientHeight;
+    pts=st.map((s,i)=>vert?[18,24+i*62]:[40+i*(W-80)/(st.length-1),H*.42]);
+    const line=pts.map(p=>p.join(',')).join(' ');
+    let g=`<defs><filter id="gl" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter></defs>`;
+    g+=`<polyline points="${line}" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"/>`;
+    g+=`<polyline id="trail" points="${line}" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" pathLength="1" stroke-dasharray="0 1"/>`;
+    st.forEach((s,i)=>{
+      const [x,y]=pts[i],last=i===st.length-1;
+      g+=`<g class="nd" data-i="${i}"><circle cx="${x}" cy="${y}" r="${last?15:12}" fill="${last?'#5dfc9c':'#0d2fb0'}" stroke="#fff" stroke-width="2.5"/><circle class="halo" cx="${x}" cy="${y}" r="20" fill="none" stroke="#fff" stroke-width="2" opacity="0"/>`;
+      if(vert){g+=`<text x="${x+30}" y="${y-2}" fill="#fff" font-size="15" font-weight="600">${s[0]}</text><text x="${x+30}" y="${y+16}" fill="#cfd9ff" font-size="13">${s[1]}</text>`}
+      else{g+=`<text x="${x}" y="${y+42}" fill="#fff" font-size="15" font-weight="600" text-anchor="middle">${s[0]}</text><text x="${x}" y="${y+62}" fill="#cfd9ff" font-size="13" text-anchor="middle">${W<900&&i%2?'':s[1]}</text>`}
+      g+=`</g>`;
+    });
+    g+=`<circle id="tok" r="7" fill="#5dfc9c" filter="url(#gl)"/><circle id="tok2" r="5" fill="#fff"/>`;
+    svg.innerHTML=g;nodes=[...svg.querySelectorAll('.nd')];
+    if(calm){const tr=svg.querySelector('#trail');tr.setAttribute('stroke-dasharray','1 0');svg.querySelector('#tok').style.display='none';svg.querySelector('#tok2').style.display='none'}
+  };
+  const ro=new ResizeObserver(draw);ro.observe(box);
+  const seg=()=>{const L=[0];for(let i=1;i<pts.length;i++){L.push(L[i-1]+Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]))}return L};
+  if(!calm){
+    const T=7000;
+    const loop=t=>{
+      if(pts.length){
+        const k=(t%T)/T,run=Math.min(1,k/0.8),L=seg(),tot=L[L.length-1],d=run*tot;
+        let i=1;while(i<L.length-1&&L[i]<d)i++;
+        const a=pts[i-1],b=pts[i],f=(d-L[i-1])/((L[i]-L[i-1])||1),x=a[0]+(b[0]-a[0])*f,y=a[1]+(b[1]-a[1])*f;
+        const tk=svg.querySelector('#tok'),tk2=svg.querySelector('#tok2'),tr=svg.querySelector('#trail');
+        if(tk){tk.setAttribute('cx',x);tk.setAttribute('cy',y);tk2.setAttribute('cx',x);tk2.setAttribute('cy',y);tr.setAttribute('stroke-dasharray',`${run} 1`);tk.style.opacity=tk2.style.opacity=k>0.92?0:1}
+        nodes.forEach((n,j)=>{const lit=d>=L[j]-1;const h=n.querySelector('.halo');n.querySelector('circle').setAttribute('fill',lit?(j===nodes.length-1?'#5dfc9c':'#fff'):(j===nodes.length-1?'#2a8f5a':'#0d2fb0'));const near=Math.abs(d-L[j])<tot*0.04;h.setAttribute('opacity',near?.9:0);h.setAttribute('r',near?24:20)});
+      }
+      requestAnimationFrame(loop);
+    };
+    requestAnimationFrame(loop);
+  }
+
+  /* console replay */
+  const script=[
+    ['c','$ steve transfer 18.177534 USDC --to external-wallet'],
+    ['m','  building spl transfer… preview ready'],
+    ['m','  movement: 18.177534 USDC · 0.0079 SOL'],
+    ['r','  ✕ Blocked by preview policy'],
+    ['r','    exceeds wallet USDC-per-operation policy (10 USDC)'],
+    ['',''],
+    ['c','$ steve transfer 10 USDC --to external-wallet'],
+    ['g','  ✓ Preview passed'],
+    ['y','  Steve protocol fee 0.0073 SOL ($0.50 + 0.5%)'],
+    ['g','  ✓ Approved by owner · signed locally · confirmed'],
+    ['',''],
+    ['c','$ steve transfer 8.177534 USDC --to external-wallet'],
+    ['g','  ✓ Preview passed · approved · confirmed'],
+    ['m','  guardrail held. owner overruled by policy, as designed.']
+  ];
+  const tty=document.getElementById('tty');
+  const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const full=()=>script.map(l=>`<span class="${l[0]}">${esc(l[1])}</span>`).join('\n');
+  if(calm){tty.innerHTML=full()}
+  else{
+    let li=0,ci=0,done='';
+    const step=()=>{
+      if(li>=script.length){tty.innerHTML=done+'<span class="caret"></span>';setTimeout(()=>{li=0;ci=0;done='';step()},5000);return}
+      const [cls,txt]=script[li];
+      ci+=cls==='c'?1:4;
+      const part=txt.slice(0,ci);
+      tty.innerHTML=done+`<span class="${cls}">${esc(part)}</span><span class="caret"></span>`;
+      if(ci>=txt.length){done+=`<span class="${cls}">${esc(txt)}</span>\n`;li++;ci=0;setTimeout(step,cls==='c'?380:220)}
+      else setTimeout(step,cls==='c'?34:14);
+    };
+    step();
+  }
+
+  /* copy */
+  const b=document.getElementById('copy');
+  b.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(document.getElementById('addr').textContent);b.textContent='Copied ✓'}catch(e){b.textContent='Select the address to copy'}setTimeout(()=>b.textContent='Copy address',2000)});
+}
+</script>
+</body>
+</html>
