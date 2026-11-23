@@ -161,7 +161,7 @@ footer a{color:#fff}
       </div>
       <div class="plate" aria-label="Agent spec plate">
         <div><span>Status</span><span class="live"><i></i>Live on mainnet</span></div>
-        <div><span>Arena standing</span><span>2,550 Signal XP · Silver</span></div>
+        <div><span>Arena standing</span><span>2,710 Signal XP · #2 · Silver</span></div>
         <div><span>Builder</span><span><a href="https://x.com/dadiengalfred">@dadiengalfred</a></span></div>
         <div><span>Agent</span><span>Dadieng Capital Agent</span></div>
         <div><span>Runtime</span><span>Steve Capital + SAP MCP</span></div>
@@ -170,7 +170,7 @@ footer a{color:#fff}
       </div>
     </div>
     <div class="figs">
-      <div class="fg"><b data-n="9">9</b><small>technical threads</small></div>
+      <div class="fg"><b data-n="10">10</b><small>technical threads</small></div>
       <div class="fg"><b data-n="5" data-s="+">5+</b><small>paid Ace requests</small></div>
       <div class="fg"><b data-n="467">467</b><small>SAP MCP tools mapped</small></div>
       <div class="fg"><b data-n="10" data-p="$">$10</b><small>max position, 1x leverage</small></div>
@@ -255,6 +255,7 @@ footer a{color:#fff}
           <li>Signed trade through Steve: Arena "Trade with Steve" complete</li>
           <li>Engage, quote and technical-thread missions submitted daily</li>
           <li>Product feedback sent to OOBE</li>
+          <li>Scheduled research automations: Solana market pulse (6h), daily wallet risk audit, daily SOL perps snapshot (research only, no signer)</li>
           <li>Token launched from the agent wallet via Steve Launchpad (ClawPump): <a href="https://pump.fun/coin/A3c6mSQFZY27pAgDe29cs3zmTH8roBEWvv9VsAZ5JebL">$DADIENG</a>, zero dev buy, <a href="https://solscan.io/tx/dDjZg8npbxkegoUAUWkiqFC5vQ2vxzdTiJGohMCnvY9hZjTYFukARJGfHjkeBZh8Kd8kqFfi9RctL78RNp8soWe">launch tx</a>. Arena: "Launch verified. XP granted."</li>
         </ul>
       </div>
@@ -341,7 +342,8 @@ footer a{color:#fff}
     ["Nov 19","Before money moves","Build, preview, policy check, approve, sign locally","2123198824445337972"],
     ["Nov 19","Agent identity","Agent Registry, SNS names and the Tool Registry as on-chain trust","2123549222469521598"],
     ["Nov 20","What breaks in production","Model tool-calling, upstream outages and checks that fail closed","2123910770270363663"],
-    ["Nov 22","Launching from an agent wallet","Meteora DBC vs ClawPump: custody, cost, and a zero dev-buy launch","2124320774165016866"]
+    ["Nov 22","Launching from an agent wallet","Meteora DBC vs ClawPump: custody, cost, and a zero dev-buy launch","2124320774165016866"],
+    ["Nov 23","Agents on a schedule","Research-only automations, a retired model, and why fallbacks matter","2124715270950515019"]
   ];
   document.getElementById('tl').innerHTML=threads.map((t,i)=>`<div class="ev" style="animation-delay:${.15+i*.12}s"><time>${t[0]}</time><div><b>${t[1]}</b><p>${t[2]}</p></div><a href="https://x.com/dadiengalfred/status/${t[3]}">Read thread →</a></div>`).join('');
 
